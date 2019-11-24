@@ -7,6 +7,12 @@ import com.hackerrank.util.FileUtils;
 
 public class ArrayManipulationService {
 
+	/**
+	 * Execute the array manipulation and return the maximum value in the resulting
+	 * array.
+	 * 
+	 * @param lines {@link List} - List of lines present in the file.
+	 */
 	public static void run(List<String> lines) {
 		List<Integer> items = FileUtils.getItems(lines, 0);
 		if (items.size() == 2) {
@@ -21,6 +27,13 @@ public class ArrayManipulationService {
 		}
 	}
 
+	/**
+	 * Returns the maximum value in the resulting array.
+	 * 
+	 * @param arraySize integer value containing array size.
+	 * @param queries   array of integer values containing the queries.
+	 * @return long value containing the maximum value in the resulting array.
+	 */
 	private static long arrayManipulation(int arraySize, int[][] queries) {
 		long array[] = new long[arraySize];
 		long maxVal = 0;
