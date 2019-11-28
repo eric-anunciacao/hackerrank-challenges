@@ -35,18 +35,20 @@ public class ArrayManipulationService {
 	 * @return long value containing the maximum value in the resulting array.
 	 */
 	private static long arrayManipulation(int arraySize, int[][] queries) {
-		long array[] = new long[arraySize];
+		long array[] = new long[arraySize + 1];
 		long maxVal = 0;
+		long sum = 0;
 		for (int i = 0; i < queries.length; i++) {
 			int startingPosition = queries[i][0] - 1;
-			int lastPosition = queries[i][1] - 1;
+			int lastPosition = queries[i][1];
 			long val = queries[i][2];
-			for (int j = startingPosition; j <= lastPosition; j++) {
-				array[j] += val;
-				if (array[j] > maxVal) {
-					maxVal = array[j];
-				}
-			}
+			array[startingPosition] += val;
+			array[lastPosition] -= val;
+		}
+
+		for (int i = 0; i < array.length; i++) {
+			sum += array[i];
+			maxVal = Math.max(maxVal, sum);
 		}
 		return maxVal;
 	}
