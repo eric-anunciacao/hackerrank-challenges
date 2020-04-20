@@ -45,11 +45,7 @@ public class FileUtils {
 		List<Integer> items = new ArrayList<>();
 		StringTokenizer token = getTokens(lines, linePosition);
 		while (token.hasMoreTokens()) {
-			try {
-				items.add(Integer.valueOf(token.nextToken()));
-			} catch (NumberFormatException e) {
-				throw new NumberFormatException(String.format("Error converting the items: %s%n", e));
-			}
+			items.add(getValue(token));
 		}
 		return items;
 	}
@@ -67,14 +63,24 @@ public class FileUtils {
 		StringTokenizer token = getTokens(lines, linePosition);
 		int i = 0;
 		while (token.hasMoreTokens()) {
-			try {
-				items[i] = Integer.valueOf(token.nextToken());
-				i++;
-			} catch (NumberFormatException e) {
-				throw new NumberFormatException(String.format("Error converting the items: %s%n", e));
-			}
+			items[i] = getValue(token);
+			i++;
 		}
 		return items;
+	}
+
+	/**
+	 * Convert the token value to Integer.
+	 * 
+	 * @param token {@link StringTokenizer} - Token value
+	 * @return {@link Integer} - Token value converted to Integer
+	 */
+	private static Integer getValue(StringTokenizer token) {
+		try {
+			return Integer.valueOf(token.nextToken());
+		} catch (NumberFormatException e) {
+			throw new NumberFormatException(String.format("Error converting the items: %s%n", e));
+		}
 	}
 
 	/**

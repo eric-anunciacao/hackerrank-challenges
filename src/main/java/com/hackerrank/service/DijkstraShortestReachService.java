@@ -16,7 +16,7 @@ public class DijkstraShortestReachService {
 	 * @param lines {@link List} - List of lines present in the file.
 	 */
 	public static void executeDijkstraShortestReach(List<String> lines) {
-		int numberOfTestCases = Integer.valueOf(lines.get(0));
+		int numberOfTestCases = Integer.parseInt(lines.get(0));
 		int linePosition = 0;
 		for (int i = 0; i < numberOfTestCases; i++) {
 			linePosition++;
@@ -115,9 +115,7 @@ public class DijkstraShortestReachService {
 			int node = nodes.remove(0);
 			for (int i = 0; i < model.getNumberOfNodes(); i++) {
 				int weight = edges[node][i];
-				if (weight == 0) {
-					continue;
-				} else {
+				if (weight != 0) {
 					weight += visitedNodes.get(node);
 					if (!visitedNodes.containsKey(i) || visitedNodes.get(i) > weight) {
 						visitedNodes.put(i, weight);
