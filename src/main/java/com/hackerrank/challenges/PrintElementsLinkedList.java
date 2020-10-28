@@ -8,7 +8,7 @@ import com.hackerrank.util.FileUtils;
 public class PrintElementsLinkedList {
 
 	public static void main(String[] args) {
-		List<String> lines = FileUtils.getFileLines("print-the-elements-of-a-linked-list.txt");
+		List<String> lines = FileUtils.getAllLinesFrom("print-the-elements-of-a-linked-list.txt");
 		if (!lines.isEmpty()) {
 			PrintElementsLinkedListService.printElements(lines);
 		}

@@ -8,7 +8,7 @@ import com.hackerrank.util.FileUtils;
 public class SparseArrays {
 
 	public static void main(String[] args) {
-		List<String> lines = FileUtils.getFileLines("sparse-arrays.txt");
+		List<String> lines = FileUtils.getAllLinesFrom("sparse-arrays.txt");
 		if (!lines.isEmpty()) {
 			SparseArraysService.executeQueries(lines);
 		}

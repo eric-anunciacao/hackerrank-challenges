@@ -22,7 +22,7 @@ public class DynamicArrayService {
 	public static void executeQuery(List<String> lines, int sequences, int numberOfQueries) {
 		initializateSeqList(sequences);
 		IntStream.range(1, numberOfQueries + 1).forEach(i -> {
-			List<Integer> items = FileUtils.getItems(lines, i);
+			List<Integer> items = FileUtils.getAllItemsFrom(lines, i);
 			if (!items.isEmpty() && items.size() == 3) {
 				int query = items.get(0);
 				Integer x = items.get(1);

@@ -8,10 +8,10 @@ import com.hackerrank.util.FileUtils;
 public class ArraysDS {
 
 	public static void main(String[] args) {
-		List<String> lines = FileUtils.getFileLines("arrays-ds.txt");
+		List<String> lines = FileUtils.getAllLinesFrom("arrays-ds.txt");
 		if (!lines.isEmpty()) {
 			int n = Integer.parseInt(lines.get(0));
-			int[] a = FileUtils.getItems(lines, 1, n);
+			int[] a = FileUtils.getAllItemsFrom(lines, 1, n);
 			int[] reverseArray = ArraysDSService.reverseArray(a);
 			String output = "";
 			for (int i = 0; i < n; i++) {

@@ -4,25 +4,24 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
+
+import com.hackerrank.configuration.exception.FileException;
 
 public class FileUtils {
 
+	private static final String DELIM = " ";
 	private static final String FILE_DIR = "src/main/resources/files/";
 
-	/**
-	 * Returns a list of all lines of a file.
-	 * 
-	 * @param fileName {@link String} - Name of file to read.
-	 * @return {@link List} - List of all lines of a file.
-	 */
-	@SuppressWarnings("resource")
-	public static List<String> getFileLines(String fileName) {
-		try {
-			FileReader reader = new FileReader(FILE_DIR + fileName);
-			BufferedReader br = new BufferedReader(reader);
+	private FileUtils() {
+	}
+
+	public static List<String> getAllLinesFrom(String fileName) {
+		try (FileReader reader = new FileReader(FILE_DIR + fileName); BufferedReader br = new BufferedReader(reader)) {
 			List<String> lines = new ArrayList<>();
 			String line;
 			while ((line = br.readLine()) != null) {
@@ -30,52 +29,28 @@ public class FileUtils {
 			}
 			return lines;
 		} catch (IOException e) {
-			throw new RuntimeException(String.format("IOException: %s%n", e));
+			throw new FileException(String.format("FileException: %s%n", e));
 		}
 	}
 
-	/**
-	 * Returns items presents in a given line of the file.
-	 * 
-	 * @param lines        {@link List} - List of lines presents in the file.
-	 * @param linePosition integer value containing file line position.
-	 * @return {@link List} - List of items presents in a given line of the file.
-	 */
-	public static List<Integer> getItems(List<String> lines, int linePosition) {
-		List<Integer> items = new ArrayList<>();
-		StringTokenizer token = getTokens(lines, linePosition);
-		while (token.hasMoreTokens()) {
-			items.add(getValue(token));
-		}
-		return items;
+	public static List<Integer> getAllItemsFrom(List<String> lines, int position) {
+		StringTokenizer tokenizer = getTokenFrom(lines, position);
+		return Collections.list(tokenizer).stream().map(token -> Integer.valueOf(token.toString()))
+				.collect(Collectors.toList());
 	}
 
-	/**
-	 * Returns items presents in a given line of the file.
-	 * 
-	 * @param lines        {@link List} - List of lines presents in the file.
-	 * @param linePosition integer value containing file line position.
-	 * @param n            integer value containing the array size.
-	 * @return {@link List} - List of items presents in a given line of the file.
-	 */
-	public static int[] getItems(List<String> lines, int linePosition, int n) {
-		int[] items = new int[n];
-		StringTokenizer token = getTokens(lines, linePosition);
+	public static int[] getAllItemsFrom(List<String> lines, int position, int arraySize) {
+		int[] items = new int[arraySize];
+		StringTokenizer token = getTokenFrom(lines, position);
 		int i = 0;
 		while (token.hasMoreTokens()) {
-			items[i] = getValue(token);
+			items[i] = getIntegerValueOf(token);
 			i++;
 		}
 		return items;
 	}
 
-	/**
-	 * Convert the token value to Integer.
-	 * 
-	 * @param token {@link StringTokenizer} - Token value
-	 * @return {@link Integer} - Token value converted to Integer
-	 */
-	private static Integer getValue(StringTokenizer token) {
+	private static Integer getIntegerValueOf(StringTokenizer token) {
 		try {
 			return Integer.valueOf(token.nextToken());
 		} catch (NumberFormatException e) {
@@ -83,16 +58,9 @@ public class FileUtils {
 		}
 	}
 
-	/**
-	 * Returns separate items from the file line.
-	 * 
-	 * @param lines        {@link List} - List of lines presents in the file.
-	 * @param linePosition integer value containing file line position.
-	 * @return {@link StringTokenizer} - Separate items from the file line.
-	 */
-	private static StringTokenizer getTokens(List<String> lines, int linePosition) {
-		String allItems = Optional.ofNullable(lines.get(linePosition)).orElse("");
-		return new StringTokenizer(allItems, " ");
+	private static StringTokenizer getTokenFrom(List<String> lines, int position) {
+		String allItems = Optional.ofNullable(lines.get(position)).orElse("");
+		return new StringTokenizer(allItems, DELIM);
 	}
 
 }

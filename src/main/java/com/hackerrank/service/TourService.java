@@ -18,7 +18,7 @@ public class TourService {
 	public static List<Tour> getTours(List<String> lines, int n) {
 		List<Tour> tours = new ArrayList<>();
 		for (int i = 1; i < n; i++) {
-			List<Integer> items = FileUtils.getItems(lines, i);
+			List<Integer> items = FileUtils.getAllItemsFrom(lines, i);
 			Tour tour = new Tour();
 			tour.setAmount(items.get(0));
 			tour.setDistance(items.get(1));

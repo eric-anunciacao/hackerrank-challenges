@@ -11,7 +11,7 @@ import com.hackerrank.util.FileUtils;
 public class StockMaximize {
 
 	public static void main(String[] args) {
-		List<String> lines = Optional.ofNullable(FileUtils.getFileLines("stock-max.txt"))
+		List<String> lines = Optional.ofNullable(FileUtils.getAllLinesFrom("stock-max.txt"))
 				.orElse(Collections.emptyList());
 		if (!lines.isEmpty()) {
 			List<Stock> stocks = StockMaximizeService.getStocks(lines);

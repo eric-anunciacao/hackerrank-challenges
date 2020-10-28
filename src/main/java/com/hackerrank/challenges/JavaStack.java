@@ -15,7 +15,7 @@ public class JavaStack {
 
 	public static void main(String[] args) {
 		loadPatterns();
-		List<String> lines = Optional.ofNullable(FileUtils.getFileLines("java-stack.txt"))
+		List<String> lines = Optional.ofNullable(FileUtils.getAllLinesFrom("java-stack.txt"))
 				.orElse(Collections.emptyList());
 		if (!lines.isEmpty()) {
 			lines.stream().forEach(l -> System.out.println(isBalanced(l)));

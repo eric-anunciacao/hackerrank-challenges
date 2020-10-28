@@ -11,7 +11,7 @@ import com.hackerrank.util.FileUtils;
 public class TruckTour {
 
 	public static void main(String[] args) {
-		List<String> lines = Optional.ofNullable(FileUtils.getFileLines("truck-tour.txt"))
+		List<String> lines = Optional.ofNullable(FileUtils.getAllLinesFrom("truck-tour.txt"))
 				.orElse(Collections.emptyList());
 		if (!lines.isEmpty()) {
 			int n = Integer.parseInt(lines.get(0));

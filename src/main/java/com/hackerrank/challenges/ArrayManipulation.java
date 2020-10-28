@@ -8,7 +8,7 @@ import com.hackerrank.util.FileUtils;
 public class ArrayManipulation {
 
 	public static void main(String[] args) {
-		List<String> lines = FileUtils.getFileLines("array-manipulation.txt");
+		List<String> lines = FileUtils.getAllLinesFrom("array-manipulation.txt");
 		if (!lines.isEmpty()) {
 			ArrayManipulationService.run(lines);
 		}

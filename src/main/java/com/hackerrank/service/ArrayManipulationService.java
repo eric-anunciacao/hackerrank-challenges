@@ -14,13 +14,13 @@ public class ArrayManipulationService {
 	 * @param lines {@link List} - List of lines present in the file.
 	 */
 	public static void run(List<String> lines) {
-		List<Integer> items = FileUtils.getItems(lines, 0);
+		List<Integer> items = FileUtils.getAllItemsFrom(lines, 0);
 		if (items.size() == 2) {
 			int arraySize = items.get(0);
 			int numOfOperations = items.get(1);
 			int[][] queries = new int[numOfOperations][3];
 			IntStream.range(0, numOfOperations).forEach(i -> {
-				List<Integer> itemsAux = FileUtils.getItems(lines, i + 1);
+				List<Integer> itemsAux = FileUtils.getAllItemsFrom(lines, i + 1);
 				IntStream.range(0, 3).forEach(j -> queries[i][j] = itemsAux.get(j));
 			});
 			System.out.println(ArrayManipulationService.arrayManipulation(arraySize, queries));

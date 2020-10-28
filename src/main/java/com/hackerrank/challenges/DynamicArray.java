@@ -8,9 +8,9 @@ import com.hackerrank.util.FileUtils;
 public class DynamicArray {
 
 	public static void main(String[] args) {
-		List<String> lines = FileUtils.getFileLines("dynamic-array.txt");
+		List<String> lines = FileUtils.getAllLinesFrom("dynamic-array.txt");
 		if (!lines.isEmpty()) {
-			List<Integer> items = FileUtils.getItems(lines, 0);
+			List<Integer> items = FileUtils.getAllItemsFrom(lines, 0);
 			if (items.isEmpty() || items.size() < 2) {
 				throw new RuntimeException("Não foi possivel recuperar os dados da primeira linha do arquivo.");
 			}

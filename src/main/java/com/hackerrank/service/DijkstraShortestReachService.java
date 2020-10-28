@@ -38,7 +38,7 @@ public class DijkstraShortestReachService {
 	 *         position.
 	 */
 	private static DijkstraShortReach loadNodesInfos(List<String> lines, int linePosition) {
-		List<Integer> items = FileUtils.getItems(lines, linePosition);
+		List<Integer> items = FileUtils.getAllItemsFrom(lines, linePosition);
 		DijkstraShortReach model = new DijkstraShortReach();
 		model.setLastPosition(linePosition);
 		if (items.size() > 1) {
@@ -61,7 +61,7 @@ public class DijkstraShortestReachService {
 		int[][] edges = getEdges(model.getNumberOfNodes());
 		for (String l : lines) {
 			model.setLastPosition(model.getLastPosition() + 1);
-			List<Integer> list = FileUtils.getItems(lines, model.getLastPosition());
+			List<Integer> list = FileUtils.getAllItemsFrom(lines, model.getLastPosition());
 			if (list.size() == 3) {
 				int weight = list.get(2);
 				int n = list.get(0) - 1;
