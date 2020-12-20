@@ -16,7 +16,7 @@ public class Array2D {
 				List<Integer> items = FileUtils.getAllItemsFrom(lines, i);
 				IntStream.range(0, items.size()).forEach(j -> array[i][j] = items.get(j));
 			});
-			System.out.println(Array2DService.hourglassSum(array));
+			System.out.println(Array2DService.maxHourglassSum(array));
 		}
 	}
 }

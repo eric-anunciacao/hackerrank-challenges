@@ -34,12 +34,19 @@ public class FileUtils {
 	}
 
 	public static List<Integer> getAllItemsFrom(List<String> lines, int position) {
+		if (CollectionUtils.isEmpty(lines)) {
+			return Collections.emptyList();
+		}
+
 		StringTokenizer tokenizer = getTokenFrom(lines, position);
 		return Collections.list(tokenizer).stream().map(token -> Integer.valueOf(token.toString()))
 				.collect(Collectors.toList());
 	}
 
 	public static int[] getAllItemsFrom(List<String> lines, int position, int arraySize) {
+		if (CollectionUtils.isEmpty(lines)) {
+			return new int[0];
+		}
 		int[] items = new int[arraySize];
 		StringTokenizer token = getTokenFrom(lines, position);
 		int i = 0;
