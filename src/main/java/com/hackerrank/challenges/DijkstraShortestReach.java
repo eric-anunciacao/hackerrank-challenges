@@ -1,20 +1,16 @@
 package com.hackerrank.challenges;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import com.hackerrank.service.DijkstraShortestReachService;
-import com.hackerrank.util.FileUtils;
 
 public class DijkstraShortestReach {
 
+	private static final String FILE_NAME = "dijkstrashortreach.txt";
+
 	public static void main(String[] args) {
-		List<String> lines = Optional.ofNullable(FileUtils.getFileLines("dijkstrashortreach.txt"))
-				.orElse(Collections.emptyList());
-		if (!lines.isEmpty()) {
-			DijkstraShortestReachService.executeDijkstraShortestReach(lines);
-		}
+		List<String> distances = DijkstraShortestReachService.run(FILE_NAME);
+		distances.stream().forEach(System.out::println);
 	}
 
 }

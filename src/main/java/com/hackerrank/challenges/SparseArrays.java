@@ -1,16 +1,16 @@
 package com.hackerrank.challenges;
 
-import java.util.List;
+import java.util.Arrays;
 
 import com.hackerrank.service.SparseArraysService;
-import com.hackerrank.util.FileUtils;
 
 public class SparseArrays {
 
+	private static final String FILE_NAME = "sparse-arrays.txt";
+
 	public static void main(String[] args) {
-		List<String> lines = FileUtils.getFileLines("sparse-arrays.txt");
-		if (!lines.isEmpty()) {
-			SparseArraysService.executeQueries(lines);
-		}
+		int[] results = SparseArraysService.run(FILE_NAME);
+		Arrays.stream(results).forEach(System.out::println);
 	}
+
 }
