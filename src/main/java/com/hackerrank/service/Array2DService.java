@@ -3,13 +3,29 @@ package com.hackerrank.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.IntStream;
+
+import com.hackerrank.util.FileUtils;
 
 public class Array2DService {
 
 	private Array2DService() {
 	}
 
-	public static int maxHourglassSum(int[][] array) {
+	public static int run(String fileName) {
+		List<String> lines = FileUtils.getAllLinesFrom(fileName);
+		if (!lines.isEmpty()) {
+			int[][] array = new int[6][6];
+			IntStream.range(0, 6).forEach(i -> {
+				List<Integer> items = FileUtils.getAllItemsFrom(lines, i);
+				IntStream.range(0, items.size()).forEach(j -> array[i][j] = items.get(j));
+			});
+			return maxHourglassSum(array);
+		}
+		return 0;
+	}
+
+	private static int maxHourglassSum(int[][] array) {
 		List<Integer> sums = new ArrayList<>();
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 6; j++) {
@@ -48,4 +64,5 @@ public class Array2DService {
 		}
 		return sum;
 	}
+
 }

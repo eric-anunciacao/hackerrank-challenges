@@ -1,6 +1,7 @@
 package com.hackerrank.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,34 +11,35 @@ import com.hackerrank.util.FileUtils;
 
 public class DijkstraShortestReachService {
 
-	/**
-	 * Run Dijkstra's shortest reach.
-	 * 
-	 * @param lines {@link List} - List of lines present in the file.
-	 */
-	public static void executeDijkstraShortestReach(List<String> lines) {
+	private DijkstraShortestReachService() {
+	}
+
+	public static List<String> run(String fileName) {
+		List<String> lines = FileUtils.getAllLinesFrom(fileName);
+		if (!lines.isEmpty()) {
+			return shortestDistances(lines);
+		}
+		return Collections.emptyList();
+	}
+
+	private static List<String> shortestDistances(List<String> lines) {
+		List<String> distances = new ArrayList<>();
 		int numberOfTestCases = Integer.parseInt(lines.get(0));
 		int linePosition = 0;
 		for (int i = 0; i < numberOfTestCases; i++) {
 			linePosition++;
-			DijkstraShortReach model = loadNodesInfos(lines, linePosition);
-			int[][] edges = getEdges(model, lines);
+			DijkstraShortReach model = loadNodesInfosOf(lines, linePosition);
+			int[][] edges = edgesWithTheirWeights(model, lines);
 			linePosition = model.getLastPosition();
-			Map<Integer, Integer> visitedNodes = getVisitedNodes(model, edges);
-			showShortestDistances(model.getNumberOfNodes(), visitedNodes, model.getStartingPosition());
+			Map<Integer, Integer> visitedNodes = getVisitedNodesWithDistanceTraveled(model, edges);
+			String shortestDistances = shortestDistances(model.getNumberOfNodes(), visitedNodes,
+					model.getStartingPosition());
+			distances.add(shortestDistances);
 		}
+		return distances;
 	}
 
-	/**
-	 * Loads basic node data according to line position.
-	 * 
-	 * @param lines        {@link List} - List of lines present in the file.
-	 * @param linePosition integer value containing the line position that has the
-	 *                     basic node data.
-	 * @return {@link DijkstraShortReach} - Basic node data according to line
-	 *         position.
-	 */
-	private static DijkstraShortReach loadNodesInfos(List<String> lines, int linePosition) {
+	private static DijkstraShortReach loadNodesInfosOf(List<String> lines, int linePosition) {
 		List<Integer> items = FileUtils.getAllItemsFrom(lines, linePosition);
 		DijkstraShortReach model = new DijkstraShortReach();
 		model.setLastPosition(linePosition);
@@ -48,17 +50,8 @@ public class DijkstraShortestReachService {
 		return model;
 	}
 
-	/**
-	 * Returns the edges and their weights according to the lines of the file.
-	 * 
-	 * @param model {@link DijkstraShortReach} - Object containing the basic node
-	 *              data.
-	 * @param lines {@link List} - List of lines presents in the file.
-	 * @return array containing the edges and their weights according to the lines
-	 *         of the file.
-	 */
-	private static int[][] getEdges(DijkstraShortReach model, List<String> lines) {
-		int[][] edges = getEdges(model.getNumberOfNodes());
+	private static int[][] edgesWithTheirWeights(DijkstraShortReach model, List<String> lines) {
+		int[][] edges = initializeEdges(model.getNumberOfNodes());
 		for (String l : lines) {
 			model.setLastPosition(model.getLastPosition() + 1);
 			List<Integer> list = FileUtils.getAllItemsFrom(lines, model.getLastPosition());
@@ -78,15 +71,7 @@ public class DijkstraShortestReachService {
 		return edges;
 	}
 
-	/**
-	 * Returns an array representing edges with their initialized weights (with
-	 * value = 0).
-	 * 
-	 * @param size integer value containing the array size.
-	 * @return an array representing edges with their initialized weights (with
-	 *         value = 0).
-	 */
-	private static int[][] getEdges(int n) {
+	private static int[][] initializeEdges(int n) {
 		int[][] edges = new int[n][n];
 		for (int row = 0; row < n; row++) {
 			for (int col = 0; col < n; col++) {
@@ -96,17 +81,7 @@ public class DijkstraShortestReachService {
 		return edges;
 	}
 
-	/**
-	 * Returns a map containing the visited nodes and the distance (weights)
-	 * traveled to them.
-	 * 
-	 * @param model {@link DijkstraShortReach} - Object containing the basic node
-	 *              data.
-	 * @param edges an array representing edges with their weights.
-	 * @return {@link Map} - Map containing the visited nodes and the distance
-	 *         (weights) traveled to them.
-	 */
-	private static Map<Integer, Integer> getVisitedNodes(DijkstraShortReach model, int[][] edges) {
+	private static Map<Integer, Integer> getVisitedNodesWithDistanceTraveled(DijkstraShortReach model, int[][] edges) {
 		Map<Integer, Integer> visitedNodes = new HashMap<>();
 		visitedNodes.put(model.getStartingPosition(), 0);
 		List<Integer> nodes = new ArrayList<>();
@@ -127,29 +102,19 @@ public class DijkstraShortestReachService {
 		return visitedNodes;
 	}
 
-	/**
-	 * Displays the shortest distances traveled for each node.
-	 * 
-	 * @param nodes            integer value containing the number of nodes.
-	 * @param visitedNodes     {@link Map} - Map containing the visited nodes and
-	 *                         the distance (weights) traveled to them.
-	 * @param startingPosition integer value containing the starting position.
-	 */
-	private static void showShortestDistances(int nodes, Map<Integer, Integer> visitedNodes, int startingPosition) {
+	private static String shortestDistances(int nodes, Map<Integer, Integer> visitedNodes, int startingPosition) {
 		StringBuilder shortestDistances = new StringBuilder();
 		for (int i = 0; i < nodes; i++) {
 			if (i != startingPosition) {
-				if (!shortestDistances.toString().isEmpty()) {
-					shortestDistances.append(" ");
-				}
 				if (visitedNodes.containsKey(i)) {
 					shortestDistances.append(String.valueOf(visitedNodes.get(i)));
 				} else {
 					shortestDistances.append("-1");
 				}
+				shortestDistances.append(" ");
 			}
 		}
-		System.out.println(shortestDistances.toString());
+		return shortestDistances.toString().trim();
 	}
 
 }

@@ -1,58 +1,57 @@
 package com.hackerrank.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import com.hackerrank.util.CollectionUtils;
+import com.hackerrank.util.FileUtils;
+import com.hackerrank.util.StringUtils;
+
 public class SparseArraysService {
 
-	/**
-	 * Execute queries to determine how many times it occurs in the list of input
-	 * strings.
-	 * 
-	 * @param lines {@link List} - List of lines present in the file.
-	 */
-	public static void executeQueries(List<String> lines) {
-		int numberOfStrings = Integer.valueOf(lines.get(0));
-		int numberOfQueries = Integer.valueOf(lines.get(numberOfStrings + 1));
-		String[] strings = new String[numberOfStrings];
-		String[] queries = new String[numberOfQueries];
-		IntStream.range(0, numberOfStrings).forEach(i -> strings[i] = lines.get(i + 1));
-		IntStream.range(0, numberOfQueries).forEach(i -> queries[i] = lines.get(numberOfStrings + 2 + i));
-		int[] results = matchingStrings(strings, queries);
-		IntStream.range(0, results.length).forEach(i -> System.out.println(results[i]));
+	private SparseArraysService() {
 	}
 
-	/**
-	 * Returns an array of integers representing the frequency of occurrence of each
-	 * query string in strings.
-	 * 
-	 * @param strings {@link String} - Array of strings to search.
-	 * @param queries {@link String} - Array of query strings.
-	 * @return an array of integers representing the frequency of occurrence of each
-	 *         query string in strings.
-	 */
+	public static int[] run(String fileName) {
+		List<String> lines = FileUtils.getAllLinesFrom(fileName);
+		if (!lines.isEmpty()) {
+			return getNumberOfOccursForQueries(lines);
+		}
+		return new int[0];
+	}
+
+	private static int[] getNumberOfOccursForQueries(List<String> lines) {
+		int numberOfStrings = Integer.parseInt(lines.get(0));
+		String[] strings = getStringsFrom(lines, numberOfStrings);
+		String[] queries = getQueriesFrom(lines, numberOfStrings);
+		return matchingStrings(strings, queries);
+	}
+
+	private static String[] getStringsFrom(List<String> lines, int numberOfStrings) {
+		String[] strings = new String[numberOfStrings];
+		IntStream.range(0, numberOfStrings).forEach(i -> strings[i] = lines.get(i + 1));
+		return strings;
+	}
+
+	private static String[] getQueriesFrom(List<String> lines, int numberOfStrings) {
+		int numberOfQueries = Integer.parseInt(lines.get(numberOfStrings + 1));
+		String[] queries = new String[numberOfQueries];
+		IntStream.range(0, numberOfQueries).forEach(i -> queries[i] = lines.get(numberOfStrings + 2 + i));
+		return queries;
+	}
+
 	private static int[] matchingStrings(String[] strings, String[] queries) {
 		int[] results = new int[queries.length];
-		IntStream.range(0, queries.length).forEach(i -> results[i] = getNumberOfResults(strings, queries[i]));
+		IntStream.range(0, queries.length).forEach(i -> results[i] = getNumberOfResultsForQuery(strings, queries[i]));
 		return results;
 	}
 
-	/**
-	 * Returns the number of occurrences for the informed query.
-	 * 
-	 * @param strings {@link String} - Array of strings to search.
-	 * @param query   {@link String} - Query that will be find in array.
-	 * @return integer value containing the number of occurrences for the informed
-	 *         query.
-	 */
-	private static int getNumberOfResults(String[] strings, String query) {
-		int numberOfResults = 0;
-		for (int i = 0; i < strings.length; i++) {
-			if (query.equalsIgnoreCase(strings[i])) {
-				numberOfResults++;
-			}
+	private static int getNumberOfResultsForQuery(String[] strings, String query) {
+		if (CollectionUtils.isEmpty(strings) || StringUtils.isEmpty(query)) {
+			return 0;
 		}
-		return numberOfResults;
+		return (int) Arrays.stream(strings).filter(s -> s.equalsIgnoreCase(query)).count();
 	}
 
 }
